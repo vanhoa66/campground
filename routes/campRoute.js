@@ -14,19 +14,18 @@ router.get("/campgrounds", function(req, res){
     });
 });
 
-
-router.get("/campgrounds/new", middleware.isLoggedIn, function(req, res){
+router.get("/campgrounds/new", function(req, res){
     res.render("newCamps");
 });
 
-router.post("/campgrounds", middleware.isLoggedIn, function(req, res){
+router.post("/campgrounds", function(req, res){
     var name = req.body.name;
     var image = req.body.image;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    };
-    var newCampground = {name: name, image:image, author: author};
+    // var author = {
+    //     id: req.user._id,
+    //     username: req.user.username
+    // };
+    var newCampground = {name: name, image:image}//, author: author};
     Campground.create(newCampground, function(err, newCamp){
         if(err){
             console.log(err);
@@ -38,7 +37,7 @@ router.post("/campgrounds", middleware.isLoggedIn, function(req, res){
 });
 
 router.route("/campgrounds/:id")
-    .get(middleware.chekCampOwnership, function(req, res){
+    .get( function(req, res){
         Campground.findById(req.params.id).populate("comments").exec(function(err, foundCamp){
             if(err){
                 console.log(err);
@@ -72,7 +71,7 @@ router.route("/campgrounds/:id")
         });
     });
 
-router.get("/campgrounds/:id/edit", middleware.chekCampOwnership, function(req, res) {
+router.get("/campgrounds/:id/edit", function(req, res) {
      Campground.findById(req.params.id, function(err, foundCamp){
         if(err){
             console.log(err);
