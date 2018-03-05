@@ -1,0 +1,19 @@
+<h1>Campgrounds</h1>
+<a href="/">Home</a>
+<h2><%= error %></h2>
+<h2><%= success %></h2>
+<% if(!currentUser){  %>
+    <a href="/login">Loggin</a>
+    <a href="/register">Register</a>
+<% } else {  %>
+        <a href="campgrounds/new">Add New</a>
+        <a href="#">Signed as <%= currentUser.username %></a>
+        <a href="/logout">Logout</a>
+        <% campgrounds.forEach(function(campgrounds){ %>
+            <% if(campgrounds.author.id.equals(currentUser._id)){ %>
+                <h2><a href="/campgrounds/<%= campgrounds._id %>"><%= campgrounds.name %></a></h2>
+                <img src="<%= campgrounds.image %>">
+            <% } %>
+        <% })  %>
+<% } %>
+

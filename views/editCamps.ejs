@@ -1,0 +1,7 @@
+<h1>EditCampground</h1>
+<a href="/">Home</a>
+<form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
+    <input type="text" name="campground[name]" value="<%= campground.name %>">
+    <input type="text" name="campground[image]" value="<%= campground.image %>">
+    <button type="submit">Update Campground</button>
+</form>
