@@ -10,7 +10,7 @@ var passport = require("passport");
 var LocalStrategy = require('passport-local');
 var session = require('express-session');
 var flash = require("connect-flash");
-
+var slug = require("slug");
 
 app.use(flash());
 app.use(session({
@@ -45,4 +45,9 @@ app.use(campRoutes);
 app.listen(process.env.PORT || 3000, process.env.IP, function(){
     console.log("Server is running...");
 });
-    
+// var str1 = "Bàn ghế hội trường 1";
+// var str2 = "Bàn ghế hội trường 2";
+// var str3= "Bàn ghế hội trường 3";
+// console.log(slug(str3, {lower: true}));
+// console.log(slug(str2));
+// console.log(slug(str3));
