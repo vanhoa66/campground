@@ -19,17 +19,28 @@ router.get("/campgrounds", function (req, res) {
 router.get("/campgrounds/new", function (req, res) {
     res.render("newCamps");
 });
+router.get("/noi-that-van-phong", function (req, res) {
+    Campground.find({menu: "noi-that-van-phong"}).exec(function(err, campgrounds) {
+        if (err) {
+            console.log(err);
+        } else {
+            campgrounds = campgrounds.sort({ 'id': -1 });
+            res.render("campgrounds", { campgrounds: campgrounds });
+        }
+    });
+});
 
 router.post("/campgrounds", function (req, res) {
     var name = req.body.name;
     var image = req.body.image;
     var description = req.body.editor1;
     var slugUrl = slug(name, {lower: true});
+    var menu = "noi-that-van-phong";
     // var author = {
     //     id: req.user._id,
     //     username: req.user.username
     // };
-    var newCampground = { name: name, image: image, description: description, slugUrl: slugUrl }//, author: author};
+    var newCampground = { name: name, image: image, description: description, slugUrl: slugUrl, menu: menu }//, author: author};
     Campground.create(newCampground, function (err, newCamp) {
         if (err) {
             console.log(err);
@@ -56,17 +67,21 @@ router.route("/campgrounds/:slug")
                 });
             }
         });
-    })
+    });
+router.route("/campgrounds/:id")
     .put(function (req, res) {
         var name = req.body.name;
         var image = req.body.image;
         var description = req.body.editor1;
-        var updateCamp = { name: name, image: image, description: description }
-        Campground.findByIdAndUpdate(req.params.id, updateCamp, function (err, updateCamp) {
+        var menu = "noi-that-van-phong";
+
+        var updateCampground = { name: name, image: image, description: description, menu: menu};
+        Campground.findByIdAndUpdate(req.params.id, updateCampground, function (err, updateCamp) {
             if (err) {
                 console.log(err);
             } else {
-                res.redirect("/campgrounds/" + req.params.id);
+                //console.log(updateCamp);
+                res.redirect("/campgrounds/" + updateCamp.slugUrl);
             }
         });
     })

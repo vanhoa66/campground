@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-3">
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab"
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="/noi-that-van-phong" role="tab"
                         aria-controls="home">Home</a>
                     <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
                         aria-controls="profile">Profile</a>
@@ -24,10 +24,11 @@
                                 <div class="card-body">
                                     <h5 class="card-title"><%= campground.name %></h5>
                                     <p class="card-text">Some quick example text.</p>
+                                    <a href="/campgrounds/<%= campground.id %>" class="btn btn-primary"> More Info</a>
                                     <!-- <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">  -->
-                                    <a href="/campgrounds/<%= campground.slugUrl %>" class="btn btn-primary">
+                                    <!-- <a href="/campgrounds/<%= campground.slugUrl %>" class="btn btn-primary">
                                         More Info
-                                    </a>
+                                    </a> -->
                                 </div>
                             </div>
                         </div>

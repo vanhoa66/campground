@@ -14,42 +14,22 @@
                 </div>
             </div>
             <div class="col-9">
-                <h1>
-                    <%= campground.name %>
-                </h1>
-                <!-- <p><%= campground.slugUrl %></p> -->
-                <img src="<%= campground.image %>">
-                <div>
-                    <%- campground.description %>
-                </div>
-                <a href="/campgrounds/<%= campground._id %>/edit">
-                    <button type="button" class="btn btn-primary">Edit</button>
-                </a>
-                <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <% campgrounds.forEach(function(campground){ %>
+                    <h1>
+                        <%= campground.name %>
+                    </h1>
+                    <img src="<%= campground.image %>">
+                    <div>
+                        <%- campground.description %>
+                    </div>
+                    <a href="/campgrounds/<%= campground.id %>/edit">
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </a>
+                    <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <% })  %>
             </div>
         </div>
     </div>
-    <% include footer%>
-
-        <!-- <% if(currentUser && campground.author.id.equals(currentUser._id)){ %> -->
-        <!-- <a href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-    <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-        <button type="submit">Delete Campground</button>
-    </form>
-    <h1><%= campground.name %></a></h1>
-    <img src="<%= campground.image %>"> -->
-        <!-- <span><a href="#">Submit by <%= campground.author.username %></a></span> -->
-        <!-- <% campground.comments.forEach(function(comment){ %>
-        <h2><%= comment.author.username %> -- <%= comment.text %></a></h2>
-        <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-        <button type="submit">Delete Comment</button>
-        </form>
-    <% }) %> -->
-        <!-- <% }  %> -->
-
-        <!-- <form action="/campgrounds/<%= campground._id %>/comments" method="POST">
-    <input type="text" name="text">
-    <button type="submit">Add comment</button>
-</form> -->
+    <% include footer %>

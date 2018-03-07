@@ -1,7 +1,14 @@
 <% include header %>
 
     <div class="container">
-        <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
+            <% campgrounds.forEach(function(campground){ %>
+        <form action="/campgrounds/<%= campground.id%>?_method=PUT" method="POST">
+            
+            <!-- <div class="form-group">
+                <select>
+                    <option value="<%= campground.menu%>">Nội thất văn phòng</option>
+                </select>
+            </div> -->
             <div class="form-group">
                 <label for="formGroupExampleInput">Name</label>
                 <input type="text" class="form-control" name="name" value="<%= campground.name %>" id=" formGroupExampleInput
@@ -18,12 +25,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
+        <% })  %>
     </div>
     <% include footer %>
-        <!-- <h1>EditCampground</h1>
-<a href="/">Home</a>
-<form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
-    <input type="text" name="campground[name]" value="<%= campground.name %>">
-    <input type="text" name="campground[image]" value="<%= campground.image %>">
-    <button type="submit">Update Campground</button>
-</form> -->

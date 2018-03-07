@@ -4,6 +4,7 @@ var campgroundSchema = new mongoose.Schema({
     name: String,
     image: String,
     description: String,
+    menu: String,
     slugUrl: {
         type: String,
         unique: true

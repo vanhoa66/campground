@@ -1,0 +1,41 @@
+<% include header%>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="/noi-that-van-phong" role="tab"
+                        aria-controls="home">Home</a>
+                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
+                        aria-controls="profile">Profile</a>
+                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
+                        aria-controls="messages">Messages</a>
+                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
+                        aria-controls="settings">Settings</a>
+                </div>
+            </div>
+            <!-- -----------list item---- -->
+            <div class="col-9">
+                <div class="row">
+                    <% campgrounds.forEach(function(campground){ %>
+                        <div class="col-4">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="<%=campground.image %>" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= campground.name %></h5>
+                                    <p class="card-text">Some quick example text.</p>
+                                    <!-- <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">  -->
+                                    <!-- <a href="/campgrounds/<%= campground.slugUrl %>" class="btn btn-primary">
+                                        More Info
+                                    </a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <% })  %>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <% include footer%>
+
