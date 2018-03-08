@@ -5,11 +5,13 @@ var Comment = require("../models/commentModel");
 var middleware = require("../middleware/middleware");
 var slug = require("slug");
 
+
 router.get("/campgrounds", function (req, res) {
     Campground.find({}, function (err, campgrounds) {
         if (err) {
             console.log(err);
         } else {
+            //console.log(campgrounds);
             campgrounds = campgrounds.sort({ 'id': -1 });
             res.render("campgrounds", { campgrounds: campgrounds });
         }

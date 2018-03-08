@@ -11,6 +11,15 @@ var LocalStrategy = require('passport-local');
 var session = require('express-session');
 var flash = require("connect-flash");
 var mysql = require("mysql");
+const { Pool, Client } = require('pg');
+const client = new Client({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'camps',
+  password: 'hunghuong',
+  port: 5432,
+});
+client.connect();
 
 app.use(flash());
 app.use(session({
@@ -45,37 +54,15 @@ app.use(indexRoutes);
 app.listen(process.env.PORT || 3000, process.env.IP, function () {
   console.log("Server is running...");
 });
-
-var condb = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "camps"
-});
-
-condb.connect(function (err) {
-  if (err) {
-    console.log(err);
-    throw err;
-  } else {
-    console.log("da ket noi");
-    // var sql = "INSERT INTO camp (name, image, description) VALUES ('ban may tinh', 'https://gscvietnam.com/images/201711/thumb_img/bo-ban-ghe-tre-em-bb10_2366.jpg', 'hello')";
-    // condb.query(sql, function(err, camp){
-    //   if (err) throw err;
-    //   console.log("1 record inserted");
-    // })
-  }
-});
-
+// ---------------pg........
 app.get("/campgrounds", (req, res) => {
-  var sql = "SELECT * FROM camp";
-  condb.query(sql, function (err, results) {
-    if (err) throw err;
-    // res.send(results);
-    res.render("campgrounds", { campgrounds: results });
-  });
+  console.log("ket noi ok");
+  client.query('SELECT * FROM camp ORDER BY id ASC', (err, results) => {
+    // console.log(results.rows[0].name);
+    res.render("campgrounds", { campgrounds: results.rows });
+    //client.end()
+  })
 });
-
 app.get("/campgrounds/new", function (req, res) {
   res.render("newCamps");
 });
@@ -83,45 +70,132 @@ app.post("/campgrounds", function (req, res) {
   var name = req.body.name;
   var image = req.body.image;
   var description = req.body.editor1;
-  //  var newCampground = { name: name, image: image, description: description }
-  var sql = "INSERT INTO camp (name, image, description) VALUES ('" + name + "', '" + image + "', '" + description + "')";
-  condb.query(sql, function (err, newCamp) {
-    if (err) throw err;
-    console.log("1 record inserted");
-    res.redirect("/campgrounds");
-  })
+  const query = {
+    text: 'INSERT INTO camp(name, image, description) VALUES($1, $2, $3)',
+    values: [name, image, description],
+  };
+  client.query(query)
+    .then(res1 => console.log(res1.rows[0]))
+    .catch(e => console.error(e.stack))
+  res.redirect("/campgrounds");
 });
+app.get("/campgrounds/:id/edit", function (req, res) {
+  var id = req.params.id;
+  const query = {
+    text: 'SELECT * FROM camp WHERE id=$1',
+    values: [id],
+  };
+  client.query(query)
+    .then(foundCamp => res.render("editCamps", { campground: foundCamp.rows[0] }))
+    .catch(e => console.error(e.stack))
+});
+
 app.route("/campgrounds/:id")
   .get(function (req, res) {
-    var sql = "SELECT * FROM camp WHERE id = '" + req.params.id + "'";
-    condb.query(sql, function (err, foundCamp) {
-      if (err) throw err;
-      res.render("showCamps", { campgrounds: foundCamp });
-    });
+    var id = req.params.id;
+    const query = {
+      text: 'SELECT * FROM camp WHERE id=$1',
+      values: [id],
+    };
+    client.query(query)
+      .then(foundCamp => res.render("showCamps", { campground: foundCamp.rows[0] }))
+      .catch(e => console.error(e.stack))
+    //res.render("showCamps", { campground: foundCamp[0] });
   })
   .put(function (req, res) {
     var name = req.body.name;
     var image = req.body.image;
     var description = req.body.editor1;
-    var sql = "UPDATE camp SET name='" + name + "', image='" + image + "', description='" + description + "' WHERE id = '" + req.params.id + "'";
-    condb.query(sql, function (err, updateCamp) {
-      if (err) throw err;
-      console.log("1 record inserted");
-      res.redirect("/campgrounds/" + req.params.id);
-    })
+    var id = req.params.id;
+    const query = {
+      text: 'UPDATE camp SET name=($1), image=($2), description=($3) WHERE id=($4)',
+      values: [name, image, description, id],
+    };
+    client.query(query)
+      .then(() => res.redirect("/campgrounds"))
+      .catch(e => console.error(e.stack))
+
   })
   .delete(function (req, res) {
-    var sql = "DELETE FROM camp WHERE id = '" + req.params.id + "'";
-    condb.query(sql, function (err, deleteCamp) {
-      if (err) throw err;
-      res.redirect("/campgrounds");
-    });
+    var id = req.params.id;
+    client.query('DELETE FROM camp WHERE id=$1', [id])
+      .then(() => res.redirect("/campgrounds"))
+      .catch(e => console.error(e.stack))
   });
-app.get("/campgrounds/:id/edit", function (req, res) {
-  var sql = "SELECT * FROM camp WHERE id = '" + req.params.id + "'";
-  condb.query(sql, function (err, foundCamp) {
-    if (err) throw err;
-    res.render("editCamps", { campgrounds: foundCamp });
-  });
-});
+// -----------------mysql----
+// var condb = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "camps"
+// });
+
+// condb.connect(function (err) {
+//   if (err) {
+//     console.log(err);
+//     throw err;
+//   } else {
+//     console.log("da ket noi");
+//     // var sql = "INSERT INTO camp (name, image, description) VALUES ('ban may tinh', 'https://gscvietnam.com/images/201711/thumb_img/bo-ban-ghe-tre-em-bb10_2366.jpg', 'hello')";
+//     // condb.query(sql, function(err, camp){
+//     //   if (err) throw err;
+//     //   console.log("1 record inserted");
+//     // })
+//   }
+// });
+
+// app.get("/campgrounds", (req, res) => {
+//   var sql = "SELECT * FROM camp";
+//   condb.query(sql, function (err, results) {
+//     if (err) throw err;
+//     //nconsole.log(json(results));
+//     res.render("campgrounds", { campgrounds: results });
+//   });
+// });
+
+// app.post("/campgrounds", function (req, res) {
+//   var name = req.body.name;
+//   var image = req.body.image;
+//   var description = req.body.editor1;
+//   //  var newCampground = { name: name, image: image, description: description }
+//   var sql = "INSERT INTO camp (name, image, description) VALUES ('" + name + "', '" + image + "', '" + description + "')";
+//   condb.query(sql, function (err, newCamp) {
+//     if (err) throw err;
+//     console.log("1 record inserted");
+//     res.redirect("/campgrounds");
+//   })
+// });
+// app.route("/campgrounds/:id")
+//   .get(function (req, res) {
+//     var sql = "SELECT * FROM camp WHERE id = '" + req.params.id + "'";
+//     condb.query(sql, function (err, foundCamp) {
+//       if (err) throw err;
+//       res.render("showCamps", { campground: foundCamp[0] });
+//     });
+//   })
+//   .put(function (req, res) {
+//     var name = req.body.name;
+//     var image = req.body.image;
+//     var description = req.body.editor1;
+//     var sql = "UPDATE camp SET name='" + name + "', image='" + image + "', description='" + description + "' WHERE id = '" + req.params.id + "'";
+//     condb.query(sql, function (err, updateCamp) {
+//       if (err) throw err;
+//       console.log("1 record inserted");
+//       res.redirect("/campgrounds/" + req.params.id);
+//     })
+//   })
+//   .delete(function (req, res) {
+//     var sql = "DELETE FROM camp WHERE id = '" + req.params.id + "'";
+//     condb.query(sql, function (err, deleteCamp) {
+//       if (err) throw err;
+//       res.redirect("/campgrounds");
+//     });
+//   });
+// app.get("/campgrounds/:id/edit", function (req, res) {
+//   var sql = "SELECT * FROM camp WHERE id = '" + req.params.id + "'";
+//   condb.query(sql, function (err, foundCamp) {
+//     if (err) throw err;
+//     res.render("editCamps", { campgrounds: foundCamp });
+//   });
+// });
 

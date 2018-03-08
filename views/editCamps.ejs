@@ -1,7 +1,7 @@
 <% include header %>
 
     <div class="container">
-            <% campgrounds.forEach(function(campground){ %>
+          
         <form action="/campgrounds/<%= campground.id%>?_method=PUT" method="POST">
             
             <!-- <div class="form-group">
@@ -25,6 +25,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
-        <% })  %>
+      
     </div>
     <% include footer %>

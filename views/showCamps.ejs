@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="col-9">
-                <% campgrounds.forEach(function(campground){ %>
+              
                     <h1>
                         <%= campground.name %>
                     </h1>
@@ -28,7 +28,7 @@
                     <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <% })  %>
+                 
             </div>
         </div>
     </div>
