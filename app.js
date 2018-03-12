@@ -11,7 +11,8 @@ var LocalStrategy = require('passport-local');
 var session = require('express-session');
 var flash = require("connect-flash");
 const Sequelize = require("sequelize");
-
+var path = require("path");
+app.use('/static', express.static(path.join(__dirname, 'public')))
 // ---------pg-sequelizw------------
 // const db = new Sequelize({
 //   database: "camps",
@@ -36,24 +37,41 @@ const db = new Sequelize({
 });
 
 db.authenticate()
-.then(() => console.log("ok"))
-.catch(err => console.log(err));
+  .then(() => console.log("ok"))
+  .catch(err => console.log(err));
+
+const Menu = db.define("menu", {
+  name: { type: Sequelize.STRING },
+});
 
 const Camp = db.define("camp", {
   name: { type: Sequelize.STRING },
   image: { type: Sequelize.STRING },
-  description: { type: Sequelize.STRING }
-})
+  description: { type: Sequelize.STRING },
+  menu_id: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: "menu",
+      key: "id"
+    }
+  }
+});
 
-Camp.sync()
+
+
+Menu.sync()
 .then(() => console.log("them ok"))
 .catch(err => console.log(err));
 
-Camp. create({
-  name: 'ban may tinh',
-  image: 'https://gscvietnam.com/images/201711/thumb_img/ghe-xoay-03_2348.jpg',
-  description: 'ok'
-})
+Camp.sync()
+  .then(() => console.log("them ok"))
+  .catch(err => console.log(err));
+
+// Camp. create({
+//   name: 'ban may tinh',
+//   image: 'https://gscvietnam.com/images/201711/thumb_img/ghe-xoay-03_2348.jpg',
+//   description: 'ok'
+// })
 
 
 // ============mysqp && pg=======
@@ -85,12 +103,13 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb://vanhoa66:hunghuong@ds255308.mlab.com:55308/campgrounds");
+// mongoose.connect("mongodb://vanhoa66:hunghuong@ds255308.mlab.com:55308/campgrounds");
 
 app.set("view engine", "ejs");
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
+  //res.locals.menu = req.menu;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
   next();
@@ -102,26 +121,70 @@ app.listen(process.env.PORT || 3000, process.env.IP, function () {
   console.log("Server is running...");
 });
 
+app.post("/menu", function (req, res) {
+  var name = req.body.name;
+  var newMenu = { name: name };
+  Menu.create(newMenu)
+    .then(() => res.redirect("/campgrounds"))
+    .catch(err => console.log(err))
+});
+
+app.get("/tin-tuc", (req, res) => {
+  Camp.findAll({
+    order: [
+      ['id', 'ASC']
+    ]
+  })
+    .then(results => res.render("tintuc", { campgrounds: results }))
+    .catch(err => console.log(err))
+});
+
+app.get("/bai-tin-tuc", (req, res) => {
+  Camp.findById(1)
+    .then(foundCamp => res.render("baitintuc", { campground: foundCamp }))
+    .catch(e => console.error(e))
+});
+
 app.get("/campgrounds", (req, res) => {
   Camp.findAll({
     order: [
       ['id', 'ASC']
     ]
   })
-    .then(results => res.render("campgrounds", { campgrounds: results }))
+    .then(results => {
+      Menu.findAll({
+        order: [
+          ['id', 'ASC']
+        ]
+      }).then(menu => res.render("trangchu", { campgrounds: results, menu: menu }))
+    })
     .catch(err => console.log(err))
 });
 
 app.get("/campgrounds/new", function (req, res) {
-  res.render("newCamps");
+  Menu.findAll({
+    order: [
+      ['id', 'ASC']
+    ]
+  }).then(menu => res.render("newCamps", { menu: menu }))
 });
 app.post("/campgrounds", function (req, res) {
-  var name = req.body.name;
-  var image = req.body.image;
-  var description = req.body.editor1;
-  var newCampground = { name: name, image: image, description: description };
-  Camp.create(newCampground)
-    .then(() => res.redirect("/campgrounds"))
+  var menu = req.body.menu;
+  console.log(menu);
+  Menu.find({
+    where: { name: menu },
+    attributes: ['id']
+  })
+    .then(id => {
+      console.log(menu);
+      var name = req.body.name;
+      var image = req.body.image;
+      var description = req.body.editor1;
+      var newCampground = { menu_id: id.id, name: name, image: image, description: description };
+      Camp.create(newCampground)
+        .then(() => res.redirect("/campgrounds"))
+        .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
 });
 app.get("/campgrounds/:id/edit", function (req, res) {
@@ -130,6 +193,20 @@ app.get("/campgrounds/:id/edit", function (req, res) {
     .then(foundCamp => res.render("editCamps", { campground: foundCamp }))
     .catch(e => console.error(e))
 });
+
+app.route("/danhmuc/:id")
+  .get(function (req, res) {
+    var id = req.params.id;
+    Camp.findAll({ where: { menu_id: id } })
+      .then(results => {
+        Menu.findAll({
+          order: [
+            ['id', 'ASC']
+          ]
+        }).then(menu => res.render("trangchu", { campgrounds: results, menu: menu }))
+      })
+      .catch(e => console.error(e))
+  });
 
 app.route("/campgrounds/:id")
   .get(function (req, res) {

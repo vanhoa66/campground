@@ -1,35 +1,59 @@
 <% include header%>
-    <div class="container">
-        <div class="row">
-            <div class="col-3">
-                <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab"
-                        aria-controls="home">Home</a>
-                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
-                        aria-controls="profile">Profile</a>
-                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
-                        aria-controls="messages">Messages</a>
-                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
-                        aria-controls="settings">Settings</a>
+
+
+        <div class="col-sm-9 padding-right">
+            <div class="product-details">
+                <!--product-details-->
+                <div class="col-sm-5">
+                    <div class="view-product">
+                        <img src="<%= campground.image %>" alt="" />
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="product-information">
+                        <!--/product-information-->
+                        <h2>
+                            <%= campground.name %>
+                        </h2>
+                        <p>Web ID: 1089772</p>
+                        <span>
+                            <span>US $59</span>
+                        </span>
+                        <p>
+                            <b>Availability:</b> In Stock</p>
+                    </div>
+                    <!--/product-information-->
                 </div>
             </div>
-            <div class="col-9">
-              
-                    <h1>
-                        <%= campground.name %>
-                    </h1>
-                    <img src="<%= campground.image %>">
-                    <div>
-                        <%- campground.description %>
+            <!--/product-details-->
+            <div class="category-tab shop-details-tab">
+                <!--category-tab-->
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#details" data-toggle="tab">Details</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="details">
+                        <div class="col-sm-12">
+                            <p>
+                                <%- campground.description %>
+                            </p>
+                            <a href="/campgrounds/<%= campground.id %>/edit">
+                                <button type="button" class="btn btn-default pull-right">Edit</button>
+                            </a>
+                            <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
+                                <button type="submit" class="btn btn-default pull-right">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <a href="/campgrounds/<%= campground.id %>/edit">
-                        <button type="button" class="btn btn-primary">Edit</button>
-                    </a>
-                    <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                 
+                </div>
             </div>
+            <!--/category-tab-->
         </div>
-    </div>
-    <% include footer %>
+
+        <% include footer%>

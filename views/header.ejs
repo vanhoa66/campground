@@ -1,56 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-	<title></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	 crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	 crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	 crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	 crossorigin="anonymous"></script>
-	<script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | E-Shopper</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/css/prettyPhoto.css" rel="stylesheet">
+    <link href="/static/css/price-range.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/responsive.css" rel="stylesheet">
 </head>
+<!--/head-->
 
 <body>
-	<div class="container">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-			 aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+    <header id="header">
+        <!--header-->
+        <div class="header_top">
+            <!--header_top-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="contactinfo">
+                            <ul class="nav nav-pills">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-phone"></i> 0168 997 0690</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i> vanhoa690@gmail.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="social-icons pull-right">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/header_top-->
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="/">Home
-							<span class="sr-only">(current)</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/login">SignIn</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/register">Register</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/logout">LogOut</a>
-					</li>
-				</ul>
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-				</form>
-			</div>
-		</nav>
-		<div class="jumbotron">
-			<h1 class="display-4">Campground</h1>
-			<p class="lead">This is a simple content or information.</p>
-			<p class="lead">
-				<a class="btn btn-primary btn-lg" href="/campgrounds/new" role="button">Add new Campground</a>
-			</p>
-		</div>
-	</div>
+        <div class="header-middle">
+            <!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo pull-left">
+                            <a href="/">
+                                <img src="https://gscvietnam.com/themes/echula/images/logo-gsc-vietnam.png" alt="" />
+                            </a>
+                            <a href="/campgrounds/new">Add new</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="mainmenu pull-right">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li>
+                                    <a href="/" class="active">Trang chủ</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#">Nội thất văn phòng
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li>
+                                            <a href="/">Ghế văn phòng</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/tin-tuc">Tin tức</a>
+                                </li>
+                                <li>
+                                    <a href="/bai-tin-tuc">Blog</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/header-middle-->
+
+        <div class="header-bottom">
+            <!--header-bottom-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="search_box pull-right">
+                            <input type="text" placeholder="Search" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/header-bottom-->
+    </header>
+    <!--/header-->
+    <section>
+        <div class="container">
+            <div class="row">

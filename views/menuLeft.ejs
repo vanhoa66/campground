@@ -1,0 +1,27 @@
+<div class="col-sm-3">
+    <div class="left-sidebar">
+        <h2>Danh mục sản phẩm</h2>
+        <div class="panel-group category-products" id="accordian">
+            <% menu.forEach(function(menu){ %>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="/danhmuc/<%= menu.id %>">
+                                <%= menu.name %>
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+                <% })  %>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <form action="/menu" method="POST">
+                                <input type="text" name="name">
+                                <button>Add</button>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+        <!--/category-products-->
+    </div>
+</div>

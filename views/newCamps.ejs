@@ -3,6 +3,16 @@
     <div class="container">
         <form action="/campgrounds" method="POST">
             <div class="form-group">
+                    <label for="formGroupExampleInput">Danh muc</label>
+                <select name="menu">
+                    <% menu.forEach(function(menu){ %>
+                        <option value="<%=menu.name %>">
+                            <%=menu.name %>
+                        </option>
+                        <% })  %>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="formGroupExampleInput">Name</label>
                 <input type="text" class="form-control" name="name" id="formGroupExampleInput" placeholder="Name">
             </div>
@@ -19,10 +29,3 @@
     </div>
 
     <% include footer%>
-        <!-- <a href="/">Home</a>
-
-<form action="/campgrounds" method="POST">
-    <input type="text" name="name">
-    <input type="text" name="image">
-    <button type="submit">Add New</button>
-</form> -->
